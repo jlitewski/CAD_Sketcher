@@ -600,7 +600,7 @@ class GenericEntityOp(StatefulOperator):
     @staticmethod
     def _restore_constraints(curve_data, snapshot):
         """Restore constraint PropertyGroups on a Curves data block."""
-        if not snapshot:
+        if not snapshot or curve_data.library or curve_data.override_library:
             return
         sc = curve_data.sketch_constraints
         # Clear existing

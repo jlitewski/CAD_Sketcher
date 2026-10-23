@@ -82,9 +82,10 @@ class Operator2d(GenericEntityOp):
             # had none", and _restore_constraints early-returns on empty -- so a
             # constraint added during the preview must be removed here, or it
             # would survive the undo (the pre-draw state had zero constraints).
-            for coll in obj.data.sketch_constraints.get_lists():
-                while len(coll) > 0:
-                    coll.remove(0)
+            if not (obj.data.library or obj.data.override_library):
+                for coll in obj.data.sketch_constraints.get_lists():
+                    while len(coll) > 0:
+                        coll.remove(0)
             self._restore_constraints(obj.data, snapshot.get("constraints", {}))
 
         # Re-apply dimensional values last (see base restore_snapshot / #564).
